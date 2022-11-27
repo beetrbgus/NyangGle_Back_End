@@ -3,10 +3,13 @@ package com.nyanggle.nyangmail.interfaces.dto.response;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.validation.FieldError;
 
 import java.util.List;
 
+@Getter
+@Setter
 public class FailureRes extends BasicResponse{
     private String errorCode;
     private String message;
