@@ -46,11 +46,6 @@ public class FishBread {
     }
     protected FishBread() {}
 
-    public static FishBread create(FishBreadCreateReqDto reqDto, String fishBreadUid, String uuid) {
-        return new FishBread(reqDto.getType(), FishBreadStatus.UNREAD, reqDto.getMessage(),
-                fishBreadUid, reqDto.getSenderIp(), reqDto.getSenderNickname(), uuid);
-    }
-
     public FishBread(Long id, String type, FishBreadStatus status, String message, String fishBreadUid, String senderIp, String senderNickname, String receiverUid, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.type = type;
@@ -72,5 +67,14 @@ public class FishBread {
         this.senderIp = senderIp;
         this.senderNickname = senderNickname;
         this.receiverUid = receiverUid;
+    }
+
+    public static FishBread create(FishBreadCreateReqDto reqDto, String fishBreadUid, String uuid) {
+        return new FishBread(reqDto.getType(), FishBreadStatus.UNREAD, reqDto.getMessage(),
+                fishBreadUid, reqDto.getSenderIp(), reqDto.getSenderNickname(), uuid);
+    }
+    public FishBread read() {
+        this.status = FishBreadStatus.READ;
+        return this;
     }
 }
