@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/fishbread")
+@RequestMapping("/fish")
 @RequiredArgsConstructor
 public class FishBreadController {
     private final FishBreadService fishBreadService;
@@ -24,17 +24,24 @@ public class FishBreadController {
     /**
      * 한개 가져오기
      * Todo 사용자 토큰을 이용한 검증 필요.
-     * @param uuid
+     * @param uUid
+     * @param fishId
      * @return
      */
-    @GetMapping("/{uuid}")
-    public FishBreadResDto findFishBreadByUUID(@PathVariable(name = "uuid") String uuid) {
-        return null;
+    @GetMapping("/{uuid}/{fishUid}")
+    public ResponseEntity findFishBreadByUUID(@PathVariable(name = "uuid") String uUid,
+                                               @PathVariable(name = "fishUid") Long fishId) {
+        return ResponseEntity.ok(fishBreadService.findByFishUid(uUid, fishId));
     }
 
     @PostMapping("/{uuid}")
     public ResponseEntity createFishBread(@RequestBody @Valid FishBreadCreateReqDto reqDto, @PathVariable(value = "uuid") String receiverUid) {
         fishBreadService.create(reqDto,receiverUid);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @GetMapping("/{uuid}")
+    public FishBreadResDto findFishBreadAll(@PathVariable(name = "uuid") String uuid) {
+        return null;
     }
 }
