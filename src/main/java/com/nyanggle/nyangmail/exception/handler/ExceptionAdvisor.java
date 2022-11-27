@@ -1,6 +1,7 @@
 package com.nyanggle.nyangmail.exception.handler;
 
 import com.nyanggle.nyangmail.exception.code.ErrorCode;
+import com.nyanggle.nyangmail.exception.code.NyangException;
 import com.nyanggle.nyangmail.interfaces.dto.response.FailureRes;
 import com.nyanggle.nyangmail.interfaces.dto.response.FailureRes.ValidationError;
 import org.springframework.http.HttpHeaders;
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -17,6 +19,11 @@ import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class ExceptionAdvisor extends ResponseEntityExceptionHandler {
+
+    @ExceptionHandler(NyangException.class)
+    public ResponseEntity<Object> globalExceptionHandler(NyangException e) {
+        return handleExceptionInternal(e);
+    }
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
@@ -32,7 +39,11 @@ public class ExceptionAdvisor extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(errorCode.getStatus())
                 .body(buildResponse(errorCode, errorCode.getMessage(), validError));
     }
-
+    private ResponseEntity<Object> handleExceptionInternal(NyangException e) {
+        ErrorCode errorCode = e.getErrorCode();
+        return ResponseEntity.status(errorCode.getStatus())
+                .body(buildResponse(errorCode));
+    }
     private FailureRes buildResponse(ErrorCode errorCode) {
         return new FailureRes(errorCode.getStatus(), errorCode.getCode(), errorCode.getMessage());
     }

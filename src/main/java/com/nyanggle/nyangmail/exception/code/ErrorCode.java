@@ -14,6 +14,8 @@ public enum ErrorCode {
     INVALID_TYPE_VALUE(400, "C005", "Invalid Type Value"),
 
     NOT_FOUND_USER(404, "U001", "No such User"),
+    NOT_FOUND_FISH(404, "F001", "No such FishBread"),
+    FISHBREAD_IS_ALREADY_DELETED(404, "F001", "Already deleted"),
     UNAUTHORIZED(401, "U002", "Not Authorized on user"),
     JWT_DECODE_FAILURE(500, "J001", "JWT cannot be decoded"),
     JWT_ENCODE_FAILURE(500, "J002", "DTO encode failure")
