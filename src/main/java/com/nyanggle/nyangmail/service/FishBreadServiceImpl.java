@@ -4,12 +4,17 @@ import com.nyanggle.nyangmail.common.RandomIdUtil;
 import com.nyanggle.nyangmail.exception.code.AlreadyDeletedFishBread;
 import com.nyanggle.nyangmail.exception.code.CannotFindFishBread;
 import com.nyanggle.nyangmail.interfaces.dto.fishbread.FishBreadCreateReqDto;
+import com.nyanggle.nyangmail.interfaces.dto.fishbread.FishBreadListResDto;
 import com.nyanggle.nyangmail.interfaces.dto.fishbread.FishBreadResDto;
+import com.nyanggle.nyangmail.interfaces.dto.fishbread.SearchCondition;
 import com.nyanggle.nyangmail.persistence.entity.FishBread;
 import com.nyanggle.nyangmail.persistence.entity.FishBreadStatus;
+import com.nyanggle.nyangmail.persistence.repository.CustomFishBreadRepository;
 import com.nyanggle.nyangmail.persistence.repository.FishBreadRepository;
 import com.nyanggle.nyangmail.persistence.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +24,7 @@ public class FishBreadServiceImpl implements FishBreadService{
 
     private final UserRepository userRepository;
     private final FishBreadRepository fishBreadRepository;
+    private final CustomFishBreadRepository customFishBreadRepository;
     private final RandomIdUtil randomIdUtil;
 
     @Transactional
@@ -47,5 +53,10 @@ public class FishBreadServiceImpl implements FishBreadService{
         if(fishBread.getStatus() == FishBreadStatus.UNREAD) {
             fishBread.read();
         }
+    }
+    @Transactional(readOnly = true)
+    @Override
+    public Page<FishBreadListResDto> findBySearchCondition(String uuid, Pageable pageable, SearchCondition searchCondition) {
+        return customFishBreadRepository.searchByCondition(uuid, searchCondition, pageable);
     }
 }
