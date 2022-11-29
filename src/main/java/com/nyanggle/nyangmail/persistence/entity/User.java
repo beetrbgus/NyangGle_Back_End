@@ -24,7 +24,6 @@ public class User {
     private Long id;
     private String nickname;
     private String displayName;
-    private String nameAttributeKey;
     private String userUid;
     private String domesticId; // provider 내 에서 유니크한 아이디
     private String providerType;
@@ -49,16 +48,16 @@ public class User {
     public void setLastestloginTime(){
         this.updatedAt = LocalDateTime.now();
     }
-    public User(String nickname, String displayName, String nameAttributeKey, String userUid, String domesticId, String providerType, Role role, String gender, String ageRange) {
+    public User(String nickname, String displayName, String userUid, String domesticId, String providerType, Role role, String gender, String ageRange) {
         this.nickname = nickname;
         this.displayName = displayName;
-        this.nameAttributeKey = nameAttributeKey;
         this.userUid = userUid;
         this.domesticId = domesticId;
         this.providerType = providerType;
         this.role = role;
         this.gender = gender;
         this.ageRange = ageRange;
+        this.status = UserStatus.NORMAL;
     }
 }
 
