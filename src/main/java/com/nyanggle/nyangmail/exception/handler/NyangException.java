@@ -1,4 +1,6 @@
-package com.nyanggle.nyangmail.exception.code;
+package com.nyanggle.nyangmail.exception.handler;
+
+import com.nyanggle.nyangmail.exception.ErrorCode;
 
 public class NyangException extends RuntimeException {
     private ErrorCode errorCode;
