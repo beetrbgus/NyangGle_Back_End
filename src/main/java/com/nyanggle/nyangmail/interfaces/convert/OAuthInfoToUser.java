@@ -10,7 +10,7 @@ public class OAuthInfoToUser implements ModelConverter<ProviderUser, User> {
 
     @Override
     public User convert(ProviderUser source) {
-        return new User(source.getNickname(), source.getNickname(), source.getEmail(), source.getNameAttributeKey(), source.getUserId(),
-                source.getDomesticId(), source.getProviderType(), Role.USER);
+        return new User(source.getNickname(), source.getNickname(), source.getUserId(),
+                source.getDomesticId(), source.getProviderType(), Role.USER, source.getGender(), source.getAgeRange());
     }
 }

@@ -18,7 +18,6 @@ import java.util.Map;
 @AllArgsConstructor
 public class UserPrincipal implements OAuth2User, UserDetails {
     private final String userId;
-    private final String email;
     private final String displayName;
     private final String roleType;
     private final String domesticId;
@@ -33,7 +32,7 @@ public class UserPrincipal implements OAuth2User, UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return userId;
     }
 
     @Override
@@ -74,7 +73,6 @@ public class UserPrincipal implements OAuth2User, UserDetails {
     public static UserPrincipal create(User user) {
         return new UserPrincipal(
                 user.getUserUid(),
-                user.getEmail(),
                 user.getDisplayName(),
                 user.getRole().getKey(),
                 user.getDomesticId(),
