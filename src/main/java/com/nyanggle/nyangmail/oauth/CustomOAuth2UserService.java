@@ -59,7 +59,7 @@ public class CustomOAuth2UserService implements OAuth2UserService {
             throw new NyangException(ErrorCode.PROVIDER_IS_UNCORRECT);
         }
 
-        ProviderUser profile = getProfile(provider, obtainAccessToken(provider, authCode));
+        ProviderUser profile = getProfile(provider, obtainAccessToken(authCode));
         User user = saveOrUpdate(profile);
         UserPrincipal userPrincipal = UserPrincipal.create(user);
         String token = jwtProvider.generateToken(userPrincipal);
@@ -68,12 +68,11 @@ public class CustomOAuth2UserService implements OAuth2UserService {
 
     /**
      * 인가코드로 Access Token 받아오기
-     * @param provider
      * @param authCode
      * @return
      * @throws JsonProcessingException
      */
-    private TokenRes obtainAccessToken(String provider, String authCode) throws JsonProcessingException {
+    private TokenRes obtainAccessToken(String authCode) throws JsonProcessingException {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
