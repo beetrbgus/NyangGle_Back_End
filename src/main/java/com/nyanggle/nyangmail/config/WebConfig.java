@@ -1,10 +1,15 @@
 package com.nyanggle.nyangmail.config;
 
+import com.nyanggle.nyangmail.oauth.CustomAuthArgumentResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.web.config.PageableHandlerMethodArgumentResolverCustomizer;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.List;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
@@ -16,10 +21,11 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
+                .allowedOrigins("http://localhost:5173", "https://nyangnyang-letter.pages.dev")
                 .allowedMethods("*")
-                .allowedOriginPatterns("*")
+                .allowCredentials(true)
+                .exposedHeaders("X-NYANG-AUTH-TOKEN")
                 .maxAge(3600);
-        WebMvcConfigurer.super.addCorsMappings(registry);
     }
 
     @Bean
@@ -28,5 +34,14 @@ public class WebConfig implements WebMvcConfigurer {
             pageableResolver.setOneIndexedParameters(true);
             pageableResolver.setMaxPageSize(45);
         };
+    }
+    @Bean
+    public CustomAuthArgumentResolver argumentResolver() {
+        return new CustomAuthArgumentResolver();
+    }
+
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+        resolvers.add(argumentResolver());
     }
 }
