@@ -1,8 +1,8 @@
 package com.nyanggle.nyangmail.service;
 
 import com.nyanggle.nyangmail.common.RandomIdUtil;
-import com.nyanggle.nyangmail.exception.code.AlreadyDeletedFishBread;
-import com.nyanggle.nyangmail.exception.code.CannotFindFishBread;
+import com.nyanggle.nyangmail.exception.fishbread.AlreadyDeletedFishBread;
+import com.nyanggle.nyangmail.exception.fishbread.CannotFindFishBread;
 import com.nyanggle.nyangmail.interfaces.dto.fishbread.FishBreadCreateReqDto;
 import com.nyanggle.nyangmail.interfaces.dto.fishbread.FishBreadListResDto;
 import com.nyanggle.nyangmail.interfaces.dto.fishbread.FishBreadResDto;
@@ -11,7 +11,6 @@ import com.nyanggle.nyangmail.persistence.entity.FishBread;
 import com.nyanggle.nyangmail.persistence.entity.FishBreadStatus;
 import com.nyanggle.nyangmail.persistence.repository.CustomFishBreadRepository;
 import com.nyanggle.nyangmail.persistence.repository.FishBreadRepository;
-import com.nyanggle.nyangmail.persistence.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,7 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class FishBreadServiceImpl implements FishBreadService{
 
-    private final UserRepository userRepository;
     private final FishBreadRepository fishBreadRepository;
     private final CustomFishBreadRepository customFishBreadRepository;
     private final RandomIdUtil randomIdUtil;
