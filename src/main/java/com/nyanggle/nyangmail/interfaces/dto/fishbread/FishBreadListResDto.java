@@ -10,12 +10,14 @@ import lombok.NoArgsConstructor;
 public class FishBreadListResDto {
     private Long fishId;
     private String type;
+    private String senderNickname;
     private FishBreadStatus status;
 
     @QueryProjection
-    public FishBreadListResDto(Long fishId, String type, FishBreadStatus status) {
+    public FishBreadListResDto(Long fishId, String type, String senderNickname, FishBreadStatus status) {
         this.fishId = fishId;
         this.type = type;
+        this.senderNickname = senderNickname;
         this.status = status;
     }
 }

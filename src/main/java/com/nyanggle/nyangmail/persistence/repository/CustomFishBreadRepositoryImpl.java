@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -25,15 +26,15 @@ public class CustomFishBreadRepositoryImpl implements CustomFishBreadRepository 
     public Page<FishBreadListResDto> searchByCondition(String uUid, SearchCondition searchCondition, Pageable pageable) {
         Long count = jpaQueryFactory.select(fishBread.count())
                 .from(fishBread)
-                .where(createSearchCondition(searchCondition))
+                .where(createSearchCondition(searchCondition, uUid))
                 .fetchOne();
 
         List<FishBreadListResDto> fishBreads =
                 jpaQueryFactory.select(
-                        new QFishBreadListResDto(fishBread.id, fishBread.type, fishBread.status)
+                        new QFishBreadListResDto(fishBread.id, fishBread.type, fishBread.senderNickname, fishBread.status)
                     ).from(fishBread)
-                    .where(startFromFishId(searchCondition.getId(), searchCondition.getCallType())
-                            , createSearchCondition(searchCondition)
+                    .where( startFromFishId(searchCondition.getFishId(), searchCondition.getCallType())
+                            , createSearchCondition(searchCondition, uUid)
                     )
                     .orderBy(fishBread.id.desc())
                     .limit(pageable.getPageSize())
@@ -47,7 +48,7 @@ public class CustomFishBreadRepositoryImpl implements CustomFishBreadRepository 
      * prev면 id보다 큰 값을 가져와야 함.
      */
     private BooleanExpression startFromFishId(Long fishId, String callType) {
-        if(fishId == null) {
+        if(fishId == 0) {
             return null;
         }
         if(callType.equals("prev")) {
@@ -56,10 +57,13 @@ public class CustomFishBreadRepositoryImpl implements CustomFishBreadRepository 
         return fishBread.id.lt(fishId);
     }
 
-    private BooleanExpression createSearchCondition(SearchCondition searchCondition) {
+    private BooleanExpression createSearchCondition(SearchCondition searchCondition, String uUid) {
         BooleanExpression expression = fishBread.status.ne(FishBreadStatus.DELETED);
         if(searchCondition.getStatus() != null) {
             expression = expression.and(fishBread.status.eq(searchCondition.getStatus()));
+        }
+        if(StringUtils.hasText(uUid)) {
+            expression = expression.and(fishBread.receiverUid.eq(uUid));
         }
         return expression;
     }
