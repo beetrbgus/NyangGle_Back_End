@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.xml.bind.DatatypeConverter;
 import java.security.Key;
@@ -26,8 +25,6 @@ import java.util.Map;
 public class JwtProvider {
     @Value("${nyangletter.jwt.accesstoken.expiryMills}")
     private long ACCESS_TOKEN_EXPIRE;
-    @Value("${nyangletter.jwt.refreshtoken.expiryMills}")
-    private long REFRESH_TOKEN_EXPIRE;
     @Value("${nyangletter.jwt.secret}")
     private String secretKey;
 
@@ -45,9 +42,7 @@ public class JwtProvider {
                 .signWith(KEY)
                 .compact();
     }
-    public String getUidFromToken(String token) {
-        return (String) getClaims(token).get("sub");
-    }
+
     public Map<String,Object> createClaims(UserPrincipal userPrincipal) {
         Map<String,Object> claims = new HashMap<>();
         claims.put("sub", userPrincipal.getUserId());
@@ -91,11 +86,7 @@ public class JwtProvider {
         }
         return JwtCode.DENIED;
     }
-    @Transactional
-    public String republishAccessToken(){
-//    Authentication authentication =
-        return "";
-    }
+
     public enum JwtCode {
         DENIED,
         ACCESS,
