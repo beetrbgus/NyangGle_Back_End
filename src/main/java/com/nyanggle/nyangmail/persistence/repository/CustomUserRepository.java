@@ -6,4 +6,5 @@ import java.util.Optional;
 
 public interface CustomUserRepository {
     Optional<User> findByNormalUser(String domesticId, String providerType);
+    Optional<User> findByUserUid(String userId);
 }
