@@ -17,14 +17,25 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
 
     @Override
     public Optional<User> findByNormalUser(String domesticId, String providerType) {
-        User user1 = jpaQueryFactory.selectFrom(user)
-                .where(standardNormalUser(domesticId, providerType))
-                .fetchOne();
         return Optional.of(
-                user1
+                jpaQueryFactory.selectFrom(user)
+                    .where(standardNormalUser(domesticId, providerType))
+                    .fetchOne()
         );
     }
 
+    @Override
+    public Optional<User> findByUserUid(String userId) {
+        return Optional.of(
+                jpaQueryFactory.selectFrom(user)
+                        .where(user.userUid.eq(userId)
+                                , defaultCondition())
+                        .fetchOne()
+        );
+    }
+    private BooleanExpression defaultCondition() {
+        return user.status.eq(UserStatus.NORMAL);
+    }
     private BooleanExpression standardNormalUser(String domesticId, String providerType) {
         BooleanExpression expression = user.id.gt(0);
         expression = expression.and(user.domesticId.eq(domesticId))

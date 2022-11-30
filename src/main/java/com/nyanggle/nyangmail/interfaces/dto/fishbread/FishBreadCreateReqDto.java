@@ -16,4 +16,5 @@ public class FishBreadCreateReqDto {
     private String senderIp;
     @NotBlank
     private String senderNickname;
+    private String receiverUid;
 }

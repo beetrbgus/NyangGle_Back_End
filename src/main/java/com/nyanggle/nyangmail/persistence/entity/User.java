@@ -59,5 +59,9 @@ public class User {
         this.ageRange = ageRange;
         this.status = UserStatus.NORMAL;
     }
+
+    public void nicknameChange(String displayName) {
+        this.displayName = displayName;
+    }
 }
 
