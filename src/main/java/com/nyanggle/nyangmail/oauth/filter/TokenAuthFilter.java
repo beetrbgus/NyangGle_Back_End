@@ -26,6 +26,14 @@ public class TokenAuthFilter extends OncePerRequestFilter {
     private final AuthTokenConverter tokenConverter;
 
     @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        if(request.getMethod().equals("OPTIONS")) {
+            return true;
+        }
+        return super.shouldNotFilter(request);
+    }
+
+    @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
         String tokenString = request.getHeader(this.TOKEN_SCHEME);

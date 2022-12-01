@@ -1,9 +1,11 @@
 package com.nyanggle.nyangmail.oauth.jwt;
 
+import com.nyanggle.nyangmail.exception.ErrorCode;
+import com.nyanggle.nyangmail.exception.handler.NyangException;
 import com.nyanggle.nyangmail.oauth.UserPrincipal;
+import com.nyanggle.nyangmail.oauth.exception.NyangJWTException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
@@ -58,38 +60,20 @@ public class JwtProvider {
                     .build()
                     .parseClaimsJws(token)
                     .getBody();
-        }catch (SecurityException e) {
-            throw new JwtException("Invalid JWT signature");
+        } catch (SecurityException e) {
+            throw new NyangJWTException(ErrorCode.INVALID_JWT_SIGNATURE);
         } catch (MalformedJwtException e) {
             // 유효하지 않은 구성의 토큰
-            throw new JwtException("Invalid JWT token.");
+            throw new NyangJWTException(ErrorCode.MALFORMED_JWT_EXCEPTION);
         } catch (ExpiredJwtException e) {
-            throw new JwtException("Expired JWT token.");
+            throw new NyangJWTException(ErrorCode.EXPIRED_JWT_TOKEN);
         } catch (UnsupportedJwtException e) {
-            throw new JwtException("Unsupported JWT token.");
+            throw new NyangJWTException(ErrorCode.UNSUPPORTED_JWT_TOKEN);
         } catch (IllegalArgumentException e) {
             // 잘못된 JWT
-            throw new JwtException("JWT token compact of handler are invalid.");
+            throw new NyangJWTException(ErrorCode.INVALID_JWT_TOKEN);
+        } catch (Exception e) {
+            throw new NyangException(e.getMessage());
         }
-    }
-
-    public JwtCode validate(String token) {
-        try {
-            //jwtParser.parseClaimsJws(token);
-            return JwtCode.ACCESS;
-        } catch (ExpiredJwtException ex) {
-            return JwtCode.EXPIRED;
-        } catch (UnsupportedJwtException ex) {
-            return JwtCode.DENIED;
-        } catch (IllegalArgumentException ex) {
-//      log.error("JWT claims string is empty.");
-        }
-        return JwtCode.DENIED;
-    }
-
-    public enum JwtCode {
-        DENIED,
-        ACCESS,
-        EXPIRED;
     }
 }

@@ -11,11 +11,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.cors.CorsUtils;
 
 @RequiredArgsConstructor
 @Configuration
-public class SecurityConfig extends WebMvcConfigurerAdapter {
+public class SecurityConfig {
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtExceptionFilter jwtExceptionFilter;
@@ -28,7 +28,8 @@ public class SecurityConfig extends WebMvcConfigurerAdapter {
         http.sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         //url 관련 권한 설정
-        http.authorizeRequests()
+        http.cors().and().authorizeRequests()
+                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .antMatchers("/").permitAll()
                 .antMatchers("/api/fishbread/**").permitAll()
                 .antMatchers("/api/oauth/**").permitAll()
@@ -39,11 +40,6 @@ public class SecurityConfig extends WebMvcConfigurerAdapter {
                 .exceptionHandling()
                     .accessDeniedHandler(jwtAccessDeniedHandler) // jwt 403
                     .authenticationEntryPoint(jwtAuthenticationEntryPoint) // jwt 401
-                .and()
-                .oauth2Login()
-                //인증 후 처리
-//                .and()
-//                .successHandler() // 인증 완료 후의 성공시 처리 Handler
         ;
         return http.build();
     }
