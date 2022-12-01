@@ -19,7 +19,8 @@ public enum ErrorCode {
     UNAUTHORIZED(401, "U002", "Not Authorized on user"),
     JWT_DECODE_FAILURE(500, "J001", "JWT cannot be decoded"),
     JWT_ENCODE_FAILURE(500, "J002", "DTO encode failure"),
-    PROVIDER_IS_UNCORRECT(401,"U003","provider is not kakao")
+    PROVIDER_IS_UNCORRECT(401,"U003","provider is not kakao"),
+    KAKAO_LOGIN_IS_FAIL(400, "U004","kakao login is failed")
     ;
     private final String code;
     private final String message;

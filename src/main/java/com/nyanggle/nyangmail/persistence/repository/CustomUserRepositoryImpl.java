@@ -17,7 +17,7 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
 
     @Override
     public Optional<User> findByNormalUser(String domesticId, String providerType) {
-        return Optional.of(
+        return Optional.ofNullable(
                 jpaQueryFactory.selectFrom(user)
                     .where(standardNormalUser(domesticId, providerType))
                     .fetchOne()
@@ -28,9 +28,9 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
     public Optional<User> findByUserUid(String userId) {
         return Optional.of(
                 jpaQueryFactory.selectFrom(user)
-                        .where(user.userUid.eq(userId)
-                                , defaultCondition())
-                        .fetchOne()
+                    .where(user.userUid.eq(userId)
+                            , defaultCondition())
+                    .fetchOne()
         );
     }
     private BooleanExpression defaultCondition() {

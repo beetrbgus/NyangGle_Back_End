@@ -2,11 +2,14 @@ package com.nyanggle.nyangmail.oauth;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Getter
 @Setter
+@Slf4j
 public class ProviderUser {
     private Map<String, Object> attributes;
     private String nameAttributeKey;
@@ -43,19 +46,28 @@ public class ProviderUser {
     private static ProviderUser ofKakao(String userNameAttributeName, String userId,
                                             Map<String, Object> attributes) {
         Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
-        String age_range = "";
-        String gender = "";
+        Map<String, String> optionalInfo = optionalInfo(kakaoAccount);
 
-        if((Boolean) kakaoAccount.get("has_age_range")) {
-            age_range = (String) kakaoAccount.get("age_range");
-        }
-        if((Boolean) kakaoAccount.get("has_gender")) {
-            gender = (String) kakaoAccount.get("gender");
-        }
-        var profile = (Map<String, Object>) kakaoAccount.get("profile");
+        Map<String, Object> profile = (Map<String, Object>) kakaoAccount.get("profile");
 
         return new ProviderUser(attributes, userNameAttributeName, userId, (String) profile.get("nickname")
-                , String.valueOf((Long) attributes.get(userNameAttributeName))
-                , gender, age_range, "kakao");
+                , String.valueOf(attributes.get(userNameAttributeName))
+                , optionalInfo.get("gender"), optionalInfo.get("age_range"), "kakao");
+    }
+    private static Map<String, String> optionalInfo(Map<String, Object> kakaoAccount) {
+        Map<String, String> info = new HashMap<>();
+
+        if((Boolean) kakaoAccount.get("has_age_range")) {
+            info.put("age_range", (String) kakaoAccount.get("age_range"));
+        }else {
+            info.put("age_range", "");
+        }
+
+        if((Boolean) kakaoAccount.get("has_gender")) {
+            info.put("gender", (String) kakaoAccount.get("gender"));
+        }else {
+            info.put("gender", "");
+        }
+        return info;
     }
 }
