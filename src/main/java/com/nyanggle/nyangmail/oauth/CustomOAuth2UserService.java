@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nyanggle.nyangmail.common.UserIdGenerator;
 import com.nyanggle.nyangmail.exception.ErrorCode;
 import com.nyanggle.nyangmail.exception.handler.NyangException;
-import com.nyanggle.nyangmail.exception.user.UnAuthorizedException;
+import com.nyanggle.nyangmail.exception.user.OAuthLoginException;
 import com.nyanggle.nyangmail.interfaces.convert.OAuthInfoToUser;
 import com.nyanggle.nyangmail.interfaces.dto.login.LoginRes;
 import com.nyanggle.nyangmail.oauth.jwt.JwtProvider;
@@ -20,10 +20,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
-import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
@@ -35,7 +31,7 @@ import java.util.Map;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class CustomOAuth2UserService implements OAuth2UserService {
+public class CustomOAuth2UserService {
     private final UserRepository userRepository;
     private final CustomUserRepository customUserRepository;
     private final UserIdGenerator userIdGenerator;
@@ -58,7 +54,6 @@ public class CustomOAuth2UserService implements OAuth2UserService {
         if(!provider.equals("kakao")) {
             throw new NyangException(ErrorCode.PROVIDER_IS_UNCORRECT);
         }
-
         ProviderUser profile = getProfile(provider, obtainAccessToken(authCode));
         User user = saveOrUpdate(profile);
         UserPrincipal userPrincipal = UserPrincipal.create(user);
@@ -106,15 +101,9 @@ public class CustomOAuth2UserService implements OAuth2UserService {
                 Map<String,Object> kakaoOAuthResponseDto = objectMapper.readValue(response.getBody(), Map.class);
                 return ProviderUser.of(provider,"id", userIdGenerator.userId(), kakaoOAuthResponseDto);
             }
-        } catch (JsonProcessingException e) {
-            throw new UnAuthorizedException();
+        } catch (Exception e) {
+            throw new OAuthLoginException(e.getMessage(), ErrorCode.KAKAO_LOGIN_IS_FAIL);
         }
-        throw new UnAuthorizedException();
-    }
-
-    @Override
-    public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-        userRequest.getClientRegistration();
-        return null;
+        throw new OAuthLoginException();
     }
 }
