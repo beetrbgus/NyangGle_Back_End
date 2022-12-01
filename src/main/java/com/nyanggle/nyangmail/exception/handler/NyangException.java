@@ -15,6 +15,10 @@ public class NyangException extends RuntimeException {
         this.errorCode = errorCode;
     }
 
+    public NyangException(String message) {
+        super(message);
+    }
+
     public ErrorCode getErrorCode() {
         return errorCode;
     }
