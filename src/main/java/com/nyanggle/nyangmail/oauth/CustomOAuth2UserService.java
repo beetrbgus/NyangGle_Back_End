@@ -5,11 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nyanggle.nyangmail.common.UserIdGenerator;
 import com.nyanggle.nyangmail.exception.ErrorCode;
 import com.nyanggle.nyangmail.exception.handler.NyangException;
+import com.nyanggle.nyangmail.exception.user.CannotFindUser;
 import com.nyanggle.nyangmail.exception.user.OAuthLoginException;
 import com.nyanggle.nyangmail.interfaces.convert.OAuthInfoToUser;
 import com.nyanggle.nyangmail.interfaces.dto.login.LoginRes;
 import com.nyanggle.nyangmail.oauth.jwt.JwtProvider;
 import com.nyanggle.nyangmail.oauth.jwt.TokenRes;
+import com.nyanggle.nyangmail.oauth.jwt.UserToken;
 import com.nyanggle.nyangmail.persistence.entity.User;
 import com.nyanggle.nyangmail.persistence.repository.CustomUserRepository;
 import com.nyanggle.nyangmail.persistence.repository.UserRepository;
@@ -61,6 +63,13 @@ public class CustomOAuth2UserService {
         return new LoginRes(user.getUserUid(),token,user.getDisplayName());
     }
 
+    public void logout(String provider, UserToken token) {
+        if(!provider.equals("kakao")) {
+            throw new NyangException(ErrorCode.PROVIDER_IS_UNCORRECT);
+        }
+        User user = userRepository.findByUserUid(token.getUserId()).orElseThrow(CannotFindUser::new);
+        kakaoLogOut(user.getDomesticId());
+    }
     /**
      * 인가코드로 Access Token 받아오기
      * @param authCode
@@ -72,7 +81,7 @@ public class CustomOAuth2UserService {
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
         String url = kakaoConfigUtils.getTokenUrl();;
-        LinkedMultiValueMap<String, String> params = kakaoConfigUtils.makeParam(authCode);
+        LinkedMultiValueMap<String, String> params = kakaoConfigUtils.loginParam(authCode);
 
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
         ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
@@ -102,8 +111,21 @@ public class CustomOAuth2UserService {
                 return ProviderUser.of(provider,"id", userIdGenerator.userId(), kakaoOAuthResponseDto);
             }
         } catch (Exception e) {
-            throw new OAuthLoginException(e.getMessage(), ErrorCode.KAKAO_LOGIN_IS_FAIL);
+            throw new OAuthLoginException(e.getMessage(), ErrorCode.KAKAO_FAIL);
         }
         throw new OAuthLoginException();
+    }
+    public void kakaoLogOut(String domesticId) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        headers.set("Authorization", "KakaoAK " + kakaoConfigUtils.getAdminKey());
+        String url = kakaoConfigUtils.getProfileUrl();
+        LinkedMultiValueMap<String, String> params = kakaoConfigUtils.logoutParam(domesticId);
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
+        ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
+
+        if(response.getStatusCode() != HttpStatus.OK) {
+            throw new OAuthLoginException();
+        }
     }
 }

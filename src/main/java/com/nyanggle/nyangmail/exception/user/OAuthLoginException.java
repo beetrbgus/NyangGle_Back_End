@@ -12,6 +12,6 @@ public class OAuthLoginException extends NyangException {
         super(message, errorCode);
     }
     public OAuthLoginException() {
-        super(ErrorCode.KAKAO_LOGIN_IS_FAIL);
+        super(ErrorCode.KAKAO_FAIL);
     }
 }

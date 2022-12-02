@@ -20,14 +20,25 @@ public class KaKaoConfigUtils {
     private String tokenUrl;
     @Value("${nyang.social.kakao.url.profile}")
     private String profileUrl;
+    @Value("${nyang.social.kakao.url.logout}")
+    private String logoutUrl;
+    @Value("${nyang.social.kakao.admin-key}")
+    private String adminKey;
 
-    public LinkedMultiValueMap<String, String> makeParam(String code) {
+    public LinkedMultiValueMap<String, String> loginParam(String code) {
         LinkedMultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "authorization_code");
         params.add("client_id", clientId);
         params.add("redirect_uri", redirectUri);
         params.add("code", code);
         params.add("client_secret", clientSecret);
+
+        return params;
+    }
+    public LinkedMultiValueMap<String, String> logoutParam(String domesticId) {
+        LinkedMultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("target_id_type", "user_id");
+        params.add("target_id", domesticId);
 
         return params;
     }
