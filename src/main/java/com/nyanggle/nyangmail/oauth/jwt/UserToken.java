@@ -7,6 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class UserToken {
     private String userId;
-    private String displayName;
+    private String nick;
     private String role;
+    private Long exp;
 }

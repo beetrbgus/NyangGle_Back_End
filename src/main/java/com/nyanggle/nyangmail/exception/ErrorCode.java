@@ -19,7 +19,7 @@ public enum ErrorCode {
     NOT_FOUND_USER(404, "U001", "No such User"),
     UNAUTHORIZED(401, "U002", "Not Authorized on user"),
     PROVIDER_IS_UNCORRECT(401,"U003","provider is not kakao"),
-    KAKAO_LOGIN_IS_FAIL(400, "U004","kakao login is failed"),
+    KAKAO_FAIL(400, "U004","kakao oAuth is failed"),
 
     //JWT Token 관련
     JWT_DECODE_FAILURE(500, "J001", "JWT cannot be decoded"),
