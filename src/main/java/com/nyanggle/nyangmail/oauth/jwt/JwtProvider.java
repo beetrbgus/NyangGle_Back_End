@@ -31,32 +31,34 @@ public class JwtProvider {
     private String secretKey;
 
     public String generateToken(UserPrincipal userPrincipal) {
-        byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(secretKey);
-        Key KEY = Keys.hmacShaKeyFor(apiKeySecretBytes);
+        final byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(secretKey);
+        final Key KEY = Keys.hmacShaKeyFor(apiKeySecretBytes);
 
         Date now = new Date();
         Date expiry = new Date(now.getTime() + ACCESS_TOKEN_EXPIRE);
 
         return Jwts.builder()
-                .setHeaderParam("typ", "JWT")
-                .setClaims(createClaims(userPrincipal))
-                .setExpiration(expiry)
                 .signWith(KEY)
+                .setSubject((userPrincipal.getDisplayName()))
+                .setClaims(createClaims(userPrincipal))
+                .setIssuedAt(now)
+                .setExpiration(expiry)
                 .compact();
     }
 
     public Map<String,Object> createClaims(UserPrincipal userPrincipal) {
         Map<String,Object> claims = new HashMap<>();
-        claims.put("sub", userPrincipal.getUserId());
+        claims.put("userId", userPrincipal.getUserId());
         claims.put("nick", userPrincipal.getDisplayName());
         claims.put("role", userPrincipal.getAuthorities().stream().findFirst().get().getAuthority());
         return claims;
     }
 
     public Claims getClaims(String token) {
+        byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(secretKey);
         try {
             return Jwts.parserBuilder()
-                    .setSigningKey(DatatypeConverter.parseBase64Binary(secretKey))
+                    .setSigningKey(apiKeySecretBytes)
                     .build()
                     .parseClaimsJws(token)
                     .getBody();

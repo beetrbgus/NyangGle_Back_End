@@ -22,6 +22,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
@@ -59,7 +61,13 @@ public class CustomOAuth2UserService {
         ProviderUser profile = getProfile(provider, obtainAccessToken(authCode));
         User user = saveOrUpdate(profile);
         UserPrincipal userPrincipal = UserPrincipal.create(user);
+
+        UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userPrincipal,
+                (Object) null, userPrincipal.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(auth);
+
         String token = jwtProvider.generateToken(userPrincipal);
+
         return new LoginRes(user.getUserUid(),token,user.getDisplayName());
     }
 
@@ -67,7 +75,8 @@ public class CustomOAuth2UserService {
         if(!provider.equals("kakao")) {
             throw new NyangException(ErrorCode.PROVIDER_IS_UNCORRECT);
         }
-        User user = userRepository.findByUserUid(token.getUserId()).orElseThrow(CannotFindUser::new);
+        User user = userRepository.findByUserUid(token.getUserId())
+                                    .orElseThrow(CannotFindUser::new);
         kakaoLogOut(user.getDomesticId());
     }
     /**
@@ -119,6 +128,7 @@ public class CustomOAuth2UserService {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         headers.set("Authorization", "KakaoAK " + kakaoConfigUtils.getAdminKey());
+
         String url = kakaoConfigUtils.getProfileUrl();
         LinkedMultiValueMap<String, String> params = kakaoConfigUtils.logoutParam(domesticId);
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
