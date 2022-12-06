@@ -50,14 +50,14 @@ public class FishBreadController {
      * 붕어빵 목록
      * @param pageable
      * @param searchCondition
-     * @param principal
+     * @param userToken
      * @return
      */
     @GetMapping("/")
     public ResponseEntity<Page<FishBreadListResDto>> findFishBreadAll(Pageable pageable,
                                                 @ModelAttribute SearchCondition searchCondition,
-                                                @AuthUser @AuthenticationPrincipal UserPrincipal principal) {
-        return ResponseEntity.ok(fishBreadService.findBySearchCondition(principal.getUserId(), pageable, searchCondition));
+                                                @AuthUser @AuthenticationPrincipal UserToken userToken) {
+        return ResponseEntity.ok(fishBreadService.findBySearchCondition(userToken.getUserId(), pageable, searchCondition));
     }
 
     /**
