@@ -59,7 +59,12 @@ public class FishBreadServiceImpl implements FishBreadService{
     }
 
     @Override
-    public Long findFishBreadCount(String receiverUid) {
-        return customFishBreadRepository.findFishBreadCount(receiverUid);
+    public Long findFishBreadCountAll(String cartUUid) {
+        return customFishBreadRepository.findFishBreadCountAll(cartUUid);
+    }
+
+    @Override
+    public Long findFishBreadCountNotRead(String userId) {
+        return customFishBreadRepository.findFishBreadCountNotRead(userId);
     }
 }

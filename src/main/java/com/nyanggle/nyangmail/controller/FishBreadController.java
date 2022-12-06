@@ -5,7 +5,6 @@ import com.nyanggle.nyangmail.interfaces.dto.fishbread.FishBreadCreateReqDto;
 import com.nyanggle.nyangmail.interfaces.dto.fishbread.FishBreadListResDto;
 import com.nyanggle.nyangmail.interfaces.dto.fishbread.FishBreadResDto;
 import com.nyanggle.nyangmail.interfaces.dto.fishbread.SearchCondition;
-import com.nyanggle.nyangmail.oauth.UserPrincipal;
 import com.nyanggle.nyangmail.oauth.jwt.UserToken;
 import com.nyanggle.nyangmail.service.FishBreadService;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +14,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -74,8 +72,23 @@ public class FishBreadController {
         return ResponseEntity.ok(resDto);
     }
 
-    @GetMapping("/count/{uuid}")
-    public ResponseEntity<Long> findFishBreadCount(@PathVariable(value = "uuid") String receiverUid) {
-        return ResponseEntity.ok(fishBreadService.findFishBreadCount(receiverUid));
+    /**
+     * 안 읽은 붕어빵의 갯수
+     * @param userToken
+     * @return
+     */
+    @GetMapping("/{uuid}/notread")
+    public ResponseEntity<Long> findFishBreadCountNotRead(@AuthUser @AuthenticationPrincipal UserToken userToken) {
+        return ResponseEntity.ok(fishBreadService.findFishBreadCountNotRead(userToken.getUserId()));
+    }
+
+    /**
+     * 전체 붕어빵의 갯수
+     * @param cartUUid
+     * @return
+     */
+    @GetMapping("/{uuid}/total")
+    public ResponseEntity<Long> findFishBreadCountAll(@PathVariable(value = "uuid") String cartUUid) {
+        return ResponseEntity.ok(fishBreadService.findFishBreadCountAll(cartUUid));
     }
 }
