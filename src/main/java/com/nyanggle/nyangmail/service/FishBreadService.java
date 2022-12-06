@@ -8,8 +8,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface FishBreadService {
-    void create(FishBreadCreateReqDto reqDto, String uUid);
+    void create(FishBreadCreateReqDto reqDto, String uUid, String senderIp);
     FishBreadResDto findByFishUid(String uUid, Long fishId);
     void fishBreadstatusChange(Long fishId);
     Page<FishBreadListResDto> findBySearchCondition(String uuid, Pageable pageable, SearchCondition searchCondition);
+    Long findFishBreadCount(String receiverUid);
 }

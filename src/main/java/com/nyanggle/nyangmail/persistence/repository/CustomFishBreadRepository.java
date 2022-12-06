@@ -7,4 +7,5 @@ import org.springframework.data.domain.Pageable;
 
 public interface CustomFishBreadRepository {
     Page<FishBreadListResDto> searchByCondition(String uUid, SearchCondition searchCondition, Pageable pageable);
+    Long findFishBreadCount(String uUid);
 }

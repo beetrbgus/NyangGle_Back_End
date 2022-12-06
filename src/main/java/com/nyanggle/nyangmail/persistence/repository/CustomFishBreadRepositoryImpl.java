@@ -42,6 +42,13 @@ public class CustomFishBreadRepositoryImpl implements CustomFishBreadRepository 
         return new PageImpl<>(fishBreads, pageable, count);
     }
 
+    public Long findFishBreadCount(String uUId) {
+        return jpaQueryFactory.select(fishBread.count())
+                .from(fishBread)
+                .where(fishBread.status.ne(FishBreadStatus.DELETED),
+                        fishBread.receiverUid.eq(uUId))
+                .fetchOne();
+    }
     /**
      * 페이지네이션 noOffSet 방식
      * 기본 정렬 방식은 최신순이기 때문에

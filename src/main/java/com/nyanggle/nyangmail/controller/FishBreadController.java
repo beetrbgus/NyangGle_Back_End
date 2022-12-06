@@ -9,11 +9,13 @@ import com.nyanggle.nyangmail.oauth.UserPrincipal;
 import com.nyanggle.nyangmail.oauth.jwt.UserToken;
 import com.nyanggle.nyangmail.service.FishBreadService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,18 +24,25 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/fishbread")
 @RequiredArgsConstructor
+@Slf4j
 public class FishBreadController {
     private final FishBreadService fishBreadService;
-
+    
     @PostMapping("/{uuid}")
-    public ResponseEntity createFishBread(@RequestBody @Valid FishBreadCreateReqDto reqDto,
+    public ResponseEntity createFishBread(HttpServletRequest request,
+                                          @RequestBody @Valid FishBreadCreateReqDto reqDto,
                                           @PathVariable(value = "uuid") String receiverUid) {
-        fishBreadService.create(reqDto,receiverUid);
+        String senderIp = request.getHeader("X-Forwarded-For");
+        if(senderIp == null) {
+            senderIp = "";
+        }
+        fishBreadService.create(reqDto, receiverUid, senderIp);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -44,7 +53,7 @@ public class FishBreadController {
      * @param principal
      * @return
      */
-    @GetMapping
+    @GetMapping("/")
     public ResponseEntity<Page<FishBreadListResDto>> findFishBreadAll(Pageable pageable,
                                                 @ModelAttribute SearchCondition searchCondition,
                                                 @AuthUser @AuthenticationPrincipal UserPrincipal principal) {
@@ -63,5 +72,10 @@ public class FishBreadController {
         FishBreadResDto resDto = fishBreadService.findByFishUid(userToken.getUserId(), fishId);
         fishBreadService.fishBreadstatusChange(fishId);
         return ResponseEntity.ok(resDto);
+    }
+
+    @GetMapping("/count/{uuid}")
+    public ResponseEntity<Long> findFishBreadCount(@PathVariable(value = "uuid") String receiverUid) {
+        return ResponseEntity.ok(fishBreadService.findFishBreadCount(receiverUid));
     }
 }
