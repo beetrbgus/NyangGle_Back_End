@@ -26,7 +26,6 @@ public class FishBread {
     private FishBreadStatus status;
     private String message;
     private String fishBreadUid;
-    private String senderIp;
     private String senderNickname;
     private String receiverUid;
     @CreatedDate
@@ -46,32 +45,30 @@ public class FishBread {
     }
     protected FishBread() {}
 
-    public FishBread(Long id, String type, FishBreadStatus status, String message, String fishBreadUid, String senderIp, String senderNickname, String receiverUid, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public FishBread(Long id, String type, FishBreadStatus status, String message, String fishBreadUid, String senderNickname, String receiverUid, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.type = type;
         this.status = status;
         this.message = message;
         this.fishBreadUid = fishBreadUid;
-        this.senderIp = senderIp;
         this.senderNickname = senderNickname;
         this.receiverUid = receiverUid;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
 
-    public FishBread(String type, FishBreadStatus status, String message, String fishBreadUid, String senderIp, String senderNickname, String receiverUid) {
+    public FishBread(String type, FishBreadStatus status, String message, String fishBreadUid, String senderNickname, String receiverUid) {
         this.type = type;
         this.status = status;
         this.message = message;
         this.fishBreadUid = fishBreadUid;
-        this.senderIp = senderIp;
         this.senderNickname = senderNickname;
         this.receiverUid = receiverUid;
     }
 
     public static FishBread create(FishBreadCreateReqDto reqDto, String fishBreadUid, String uuid) {
         return new FishBread(reqDto.getType(), FishBreadStatus.UNREAD, reqDto.getMessage(),
-                fishBreadUid, reqDto.getSenderIp(), reqDto.getSenderNickname(), uuid);
+                fishBreadUid, reqDto.getSenderNickname(), uuid);
     }
     public FishBread read() {
         this.status = FishBreadStatus.READ;

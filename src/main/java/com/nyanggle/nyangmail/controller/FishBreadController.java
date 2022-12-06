@@ -33,14 +33,9 @@ public class FishBreadController {
     private final FishBreadService fishBreadService;
     
     @PostMapping("/{uuid}")
-    public ResponseEntity createFishBread(HttpServletRequest request,
-                                          @RequestBody @Valid FishBreadCreateReqDto reqDto,
+    public ResponseEntity createFishBread(@RequestBody @Valid FishBreadCreateReqDto reqDto,
                                           @PathVariable(value = "uuid") String receiverUid) {
-        String senderIp = request.getHeader("X-Forwarded-For");
-        if(senderIp == null) {
-            senderIp = "";
-        }
-        fishBreadService.create(reqDto, receiverUid, senderIp);
+        fishBreadService.create(reqDto, receiverUid);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
