@@ -27,8 +27,8 @@ public class FishBreadServiceImpl implements FishBreadService{
 
     @Transactional
     @Override
-    public void create(FishBreadCreateReqDto reqDto, String uUid) {
-        FishBread fishBread = FishBread.create(reqDto, randomIdUtil.fishBreadId(), uUid);
+    public void create(FishBreadCreateReqDto reqDto, String uUid, String senderIp) {
+        FishBread fishBread = FishBread.create(reqDto, randomIdUtil.fishBreadId(), uUid, senderIp);
         fishBreadRepository.save(fishBread);
     }
 
@@ -56,5 +56,10 @@ public class FishBreadServiceImpl implements FishBreadService{
     @Override
     public Page<FishBreadListResDto> findBySearchCondition(String uuid, Pageable pageable, SearchCondition searchCondition) {
         return customFishBreadRepository.searchByCondition(uuid, searchCondition, pageable);
+    }
+
+    @Override
+    public Long findFishBreadCount(String receiverUid) {
+        return customFishBreadRepository.findFishBreadCount(receiverUid);
     }
 }
