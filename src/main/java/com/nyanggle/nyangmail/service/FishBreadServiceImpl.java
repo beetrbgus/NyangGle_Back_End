@@ -27,8 +27,8 @@ public class FishBreadServiceImpl implements FishBreadService{
 
     @Transactional
     @Override
-    public void create(FishBreadCreateReqDto reqDto, String uUid, String senderIp) {
-        FishBread fishBread = FishBread.create(reqDto, randomIdUtil.fishBreadId(), uUid, senderIp);
+    public void create(FishBreadCreateReqDto reqDto, String uuid) {
+        FishBread fishBread = FishBread.create(reqDto, randomIdUtil.fishBreadId(), uuid);
         fishBreadRepository.save(fishBread);
     }
 
