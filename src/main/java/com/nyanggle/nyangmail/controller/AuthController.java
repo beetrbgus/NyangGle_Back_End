@@ -2,7 +2,6 @@ package com.nyanggle.nyangmail.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nyanggle.nyangmail.oauth.CustomOAuth2UserService;
-import com.nyanggle.nyangmail.oauth.UserPrincipal;
 import com.nyanggle.nyangmail.oauth.jwt.UserToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +31,9 @@ public class AuthController {
         return ResponseEntity.ok(oAuth2UserService.login(provider,code));
     }
     @PostMapping("/logout/{provider}")
-    public void userLogOut(HttpServletRequest request, HttpServletResponse response, @PathVariable(name = "provider") String provider, @AuthenticationPrincipal UserToken userToken) {
+    public void userLogOut(HttpServletRequest request, HttpServletResponse response,
+                           @PathVariable(name = "provider") String provider,
+                           @AuthenticationPrincipal UserToken userToken) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         oAuth2UserService.logout(provider,userToken);
         new SecurityContextLogoutHandler().logout(request, response, authentication);

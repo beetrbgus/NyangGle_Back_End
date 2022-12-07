@@ -31,14 +31,18 @@ public class CustomFishBreadRepositoryImpl implements CustomFishBreadRepository 
 
         List<FishBreadListResDto> fishBreads =
                 jpaQueryFactory.select(
-                        new QFishBreadListResDto(fishBread.id, fishBread.type, fishBread.senderNickname, fishBread.status)
-                    ).from(fishBread)
-                    .where( pagingCondition(searchCondition.getFishId(), searchCondition.getCallType())
-                            , createSearchCondition(searchCondition, uUid)
-                    )
-                    .orderBy(fishBread.id.desc())
-                    .limit(pageable.getPageSize())
-                    .fetch();
+                                new QFishBreadListResDto(fishBread.id, fishBread.type,
+                                        fishBread.senderNickname, fishBread.status
+                                )
+                        ).from(fishBread)
+                        .where( pagingCondition(
+                                        searchCondition.getFishId(), searchCondition.getCallType()
+                                ),
+                                createSearchCondition(searchCondition, uUid)
+                        )
+                        .orderBy(fishBread.id.desc())
+                        .limit(pageable.getPageSize())
+                        .fetch();
         return new PageImpl<>(fishBreads, pageable, count);
     }
 
