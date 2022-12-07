@@ -22,7 +22,7 @@ import java.util.Map;
 public class UserController {
     private final UserService userService;
 
-    @PatchMapping("/")
+    @PatchMapping
     public ResponseEntity modifyNickname(@AuthUser @AuthenticationPrincipal UserToken userToken,
                                          @RequestBody Map<String,String> nicknameMap){
         if(!StringUtils.hasText(nicknameMap.get("nickname"))) {
