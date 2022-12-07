@@ -3,14 +3,19 @@ package com.nyanggle.nyangmail.service;
 import com.nyanggle.nyangmail.common.RandomIdUtil;
 import com.nyanggle.nyangmail.exception.fishbread.AlreadyDeletedFishBread;
 import com.nyanggle.nyangmail.exception.fishbread.CannotFindFishBread;
+import com.nyanggle.nyangmail.exception.user.CannotFindUser;
 import com.nyanggle.nyangmail.interfaces.dto.fishbread.FishBreadCreateReqDto;
 import com.nyanggle.nyangmail.interfaces.dto.fishbread.FishBreadListResDto;
 import com.nyanggle.nyangmail.interfaces.dto.fishbread.FishBreadResDto;
+import com.nyanggle.nyangmail.interfaces.dto.fishbread.MainInfoResDto;
 import com.nyanggle.nyangmail.interfaces.dto.fishbread.SearchCondition;
+import com.nyanggle.nyangmail.oauth.jwt.UserToken;
 import com.nyanggle.nyangmail.persistence.entity.FishBread;
 import com.nyanggle.nyangmail.persistence.entity.FishBreadStatus;
+import com.nyanggle.nyangmail.persistence.entity.User;
 import com.nyanggle.nyangmail.persistence.repository.CustomFishBreadRepository;
 import com.nyanggle.nyangmail.persistence.repository.FishBreadRepository;
+import com.nyanggle.nyangmail.persistence.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class FishBreadServiceImpl implements FishBreadService{
 
+    private final UserRepository userRepository;
     private final FishBreadRepository fishBreadRepository;
     private final CustomFishBreadRepository customFishBreadRepository;
     private final RandomIdUtil randomIdUtil;
@@ -60,23 +66,6 @@ public class FishBreadServiceImpl implements FishBreadService{
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public Long findFishBreadCountAll(String cartUUid) {
-        return customFishBreadRepository.findFishBreadCountAll(cartUUid);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Long findFishBreadCountNotReadMy(String userId) {
-        return customFishBreadRepository.findFishBreadCountNotRead(userId, 100);
-    }
-
-    @Override
-    public Long findFishBreadCountNotReadOther(String userId) {
-        return customFishBreadRepository.findFishBreadCountNotRead(userId, 6);
-    }
-
-    @Override
     @Transactional
     public void deleteFishBread(Long fishId, String userId) {
         FishBread fishBread = fishBreadRepository.findByIdAndReceiverUid(fishId, userId)
@@ -85,5 +74,24 @@ public class FishBreadServiceImpl implements FishBreadService{
             throw new AlreadyDeletedFishBread();
         }
         fishBread.delete();
+    }
+
+    @Override
+    public MainInfoResDto getMainInfo(String cartUUid, UserToken userToken) {
+        int maxCount = 0;
+
+        if (userToken == null || cartUUid.equals(userToken.getUserId())) {
+            maxCount = 6;
+        }else {
+            maxCount = 100;
+        }
+
+        User user = userRepository.findByUserUid(cartUUid).orElseThrow(CannotFindUser::new);
+
+        return MainInfoResDto.builder()
+                .nickname(user.getDisplayName())
+                .totalCount(customFishBreadRepository.findFishBreadCountAll(cartUUid))
+                .unreadCount(customFishBreadRepository.findFishBreadCountUnRead(cartUUid, maxCount))
+                .build();
     }
 }
