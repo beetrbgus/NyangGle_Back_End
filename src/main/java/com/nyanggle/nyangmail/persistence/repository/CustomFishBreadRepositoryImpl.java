@@ -54,14 +54,16 @@ public class CustomFishBreadRepositoryImpl implements CustomFishBreadRepository 
     }
 
     @Override
-    public Long findFishBreadCountNotRead(String uUId, int maxCnt) {
-        return jpaQueryFactory.select(fishBread.count())
+    public Long findFishBreadCountUnRead(String uUId, int maxCnt) {
+        return Long.valueOf(
+                jpaQueryFactory.select(fishBread.id)
                 .from(fishBread)
                 .where(fishBread.receiverUid.eq(uUId),
                         fishBread.status.eq(FishBreadStatus.UNREAD)
                 )
                 .limit(maxCnt)
-                .fetchOne();
+                .fetch().size()
+        );
     }
 
     /**
