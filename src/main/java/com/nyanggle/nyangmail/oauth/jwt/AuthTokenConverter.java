@@ -12,7 +12,7 @@ public class AuthTokenConverter {
     public UserToken fromToken(String t) {
         Claims claims = jwt.getClaims(t);
         String userId = claims.get("userId", String.class);
-        String displayName = claims.get("displayName", String.class);
+        String displayName = claims.get("nick", String.class);
         String role = claims.get("role", String.class);
         return new UserToken(userId, displayName, role);
     }

@@ -9,5 +9,4 @@ public class UserToken {
     private String userId;
     private String nick;
     private String role;
-    private Long exp;
 }
