@@ -33,7 +33,7 @@ public class CustomFishBreadRepositoryImpl implements CustomFishBreadRepository 
                 jpaQueryFactory.select(
                         new QFishBreadListResDto(fishBread.id, fishBread.type, fishBread.senderNickname, fishBread.status)
                     ).from(fishBread)
-                    .where( startFromFishId(searchCondition.getFishId(), searchCondition.getCallType())
+                    .where( pagingCondition(searchCondition.getFishId(), searchCondition.getCallType())
                             , createSearchCondition(searchCondition, uUid)
                     )
                     .orderBy(fishBread.id.desc())
@@ -65,14 +65,16 @@ public class CustomFishBreadRepositoryImpl implements CustomFishBreadRepository 
      * 기본 정렬 방식은 최신순이기 때문에
      * prev면 id보다 큰 값을 가져와야 함.
      */
-    private BooleanExpression startFromFishId(Long fishId, String callType) {
+    private BooleanExpression pagingCondition(Long fishId, String callType) {
         if(fishId == 0) {
             return null;
         }
         if(callType.equals("prev")) {
             return fishBread.id.gt(fishId);
+        } else if (callType.equals("next")) {
+            return fishBread.id.lt(fishId);
         }
-        return fishBread.id.lt(fishId);
+        return null;
     }
 
     private BooleanExpression createSearchCondition(SearchCondition searchCondition, String uuid) {
