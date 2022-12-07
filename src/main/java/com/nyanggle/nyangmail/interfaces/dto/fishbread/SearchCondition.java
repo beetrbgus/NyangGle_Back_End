@@ -11,6 +11,5 @@ import javax.validation.constraints.NotBlank;
 public class SearchCondition {
     private Long fishId; // 붕어빵 아이디
     private FishBreadStatus status; // 읽음, 안 읽음
-    @NotBlank
     private String callType; //이전 , 다음
 }
