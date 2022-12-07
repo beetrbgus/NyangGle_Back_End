@@ -74,4 +74,7 @@ public class FishBread {
         this.status = FishBreadStatus.READ;
         return this;
     }
+    public void delete() {
+        this.status = FishBreadStatus.DELETED;
+    }
 }

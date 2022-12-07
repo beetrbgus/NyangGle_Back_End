@@ -25,15 +25,15 @@ public class FishBreadServiceImpl implements FishBreadService{
     private final CustomFishBreadRepository customFishBreadRepository;
     private final RandomIdUtil randomIdUtil;
 
-    @Transactional
     @Override
+    @Transactional
     public void create(FishBreadCreateReqDto reqDto, String uuid) {
         FishBread fishBread = FishBread.create(reqDto, randomIdUtil.fishBreadId(), uuid);
         fishBreadRepository.save(fishBread);
     }
 
-    @Transactional(readOnly = true)
     @Override
+    @Transactional(readOnly = true)
     public FishBreadResDto findByFishUid(String uUid, Long fishId) {
         FishBread fishBread = fishBreadRepository.findByIdAndReceiverUid(fishId, uUid)
                 .orElseThrow(CannotFindFishBread::new);
@@ -43,8 +43,8 @@ public class FishBreadServiceImpl implements FishBreadService{
         return new FishBreadResDto(fishBread);
     }
 
-    @Transactional
     @Override
+    @Transactional
     public void fishBreadstatusChange(Long fishId) {
         FishBread fishBread = fishBreadRepository.findById(fishId)
                 .orElseThrow(CannotFindFishBread::new);
@@ -52,19 +52,33 @@ public class FishBreadServiceImpl implements FishBreadService{
             fishBread.read();
         }
     }
-    @Transactional(readOnly = true)
+
     @Override
+    @Transactional(readOnly = true)
     public Page<FishBreadListResDto> findBySearchCondition(String uuid, Pageable pageable, SearchCondition searchCondition) {
         return customFishBreadRepository.searchByCondition(uuid, searchCondition, pageable);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Long findFishBreadCountAll(String cartUUid) {
         return customFishBreadRepository.findFishBreadCountAll(cartUUid);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Long findFishBreadCountNotRead(String userId) {
         return customFishBreadRepository.findFishBreadCountNotRead(userId);
+    }
+
+    @Override
+    @Transactional
+    public void deleteFishBread(Long fishId, String userId) {
+        FishBread fishBread = fishBreadRepository.findByIdAndReceiverUid(fishId, userId)
+                .orElseThrow(CannotFindFishBread::new);
+        if(fishBread.getStatus() == FishBreadStatus.DELETED) {
+            throw new AlreadyDeletedFishBread();
+        }
+        fishBread.delete();
     }
 }

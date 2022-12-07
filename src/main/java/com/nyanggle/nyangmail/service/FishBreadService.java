@@ -14,4 +14,5 @@ public interface FishBreadService {
     Page<FishBreadListResDto> findBySearchCondition(String uuid, Pageable pageable, SearchCondition searchCondition);
     Long findFishBreadCountAll(String cartUUid);
     Long findFishBreadCountNotRead(String userId);
+    void deleteFishBread(Long fishId, String userId);
 }
