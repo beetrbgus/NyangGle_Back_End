@@ -67,8 +67,13 @@ public class FishBreadServiceImpl implements FishBreadService{
 
     @Override
     @Transactional(readOnly = true)
-    public Long findFishBreadCountNotRead(String userId) {
-        return customFishBreadRepository.findFishBreadCountNotRead(userId);
+    public Long findFishBreadCountNotReadMy(String userId) {
+        return customFishBreadRepository.findFishBreadCountNotRead(userId, 100);
+    }
+
+    @Override
+    public Long findFishBreadCountNotReadOther(String userId) {
+        return customFishBreadRepository.findFishBreadCountNotRead(userId, 6);
     }
 
     @Override
