@@ -46,9 +46,9 @@ public class FishBreadController {
      * @param userToken
      * @return
      */
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<Page<FishBreadListResDto>> findFishBreadAll(Pageable pageable,
-                                                @ModelAttribute SearchCondition searchCondition,
+                                                @ModelAttribute @Valid SearchCondition searchCondition,
                                                 @AuthUser @AuthenticationPrincipal UserToken userToken) {
         return ResponseEntity.ok(fishBreadService.findBySearchCondition(userToken.getUserId(), pageable, searchCondition));
     }
@@ -60,7 +60,7 @@ public class FishBreadController {
      * @return
      */
     @GetMapping("/{fishId}")
-    public ResponseEntity findFishBreadByUUID(@PathVariable(name = "fishId") Long fishId,
+    public ResponseEntity<FishBreadResDto> findFishBreadByUUID(@PathVariable(name = "fishId") Long fishId,
                                               @AuthUser @AuthenticationPrincipal UserToken userToken) {
         FishBreadResDto resDto = fishBreadService.findByFishUid(userToken.getUserId(), fishId);
         fishBreadService.fishBreadstatusChange(fishId);
