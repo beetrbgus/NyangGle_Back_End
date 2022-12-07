@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,14 +49,14 @@ public class FishBreadController {
      */
     @GetMapping
     public ResponseEntity<Page<FishBreadListResDto>> findFishBreadAll(Pageable pageable,
-                                                @ModelAttribute @Valid SearchCondition searchCondition,
+                                                @ModelAttribute SearchCondition searchCondition,
                                                 @AuthUser @AuthenticationPrincipal UserToken userToken) {
         return ResponseEntity.ok(fishBreadService.findBySearchCondition(userToken.getUserId(), pageable, searchCondition));
     }
 
     /**
      * 붕어빵 상세
-     * Todo 사용자 토큰을 이용한 검증 필요.
+     *
      * @param fishId
      * @return
      */
@@ -85,5 +86,10 @@ public class FishBreadController {
     @GetMapping("/{uuid}/total")
     public ResponseEntity<Long> findFishBreadCountAll(@PathVariable(value = "uuid") String cartUUid) {
         return ResponseEntity.ok(fishBreadService.findFishBreadCountAll(cartUUid));
+    }
+    @DeleteMapping("/{fishId}")
+    public void deleteFishBread(@PathVariable(name = "fishId") Long fishId,
+                                @AuthUser @AuthenticationPrincipal UserToken userToken){
+        fishBreadService.deleteFishBread(fishId, userToken.getUserId());
     }
 }
