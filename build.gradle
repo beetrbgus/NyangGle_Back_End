@@ -21,7 +21,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation "org.hibernate.validator:hibernate-validator:${hibernateValidatorVersion}"
-
+    implementation 'org.springframework.boot:spring-boot-autoconfigure:2.7.6'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     // jwt
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
@@ -35,6 +35,9 @@ dependencies {
     implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
     implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
     implementation "com.querydsl:querydsl-core:${queryDslVersion}"
+
+    // jackson
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.14.0'
 
     runtimeOnly 'com.mysql:mysql-connector-j'
     // AnnotationProcessor
