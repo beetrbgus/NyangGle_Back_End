@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
@@ -69,13 +68,23 @@ public class FishBreadController {
     }
 
     /**
-     * 안 읽은 붕어빵의 갯수
+     * 내 프로필에서 안 읽은 붕어빵의 갯수 ( 최대 100개 )
      * @param userToken
      * @return
      */
-    @GetMapping("/{uuid}/notread")
-    public ResponseEntity<Long> findFishBreadCountNotRead(@AuthUser @AuthenticationPrincipal UserToken userToken) {
-        return ResponseEntity.ok(fishBreadService.findFishBreadCountNotRead(userToken.getUserId()));
+    @GetMapping("/{uuid}/myunread")
+    public ResponseEntity<Long> findFishBreadCountNotReadMy(@AuthUser @AuthenticationPrincipal UserToken userToken) {
+        return ResponseEntity.ok(fishBreadService.findFishBreadCountNotReadMy(userToken.getUserId()));
+    }
+
+    /**
+     * 남 프로필에서 안 읽은 붕어빵의 갯수 ( 최대 6개 )
+     * @param cartUUid
+     * @return
+     */
+    @GetMapping("/{uuid}/unread")
+    public ResponseEntity<Long> findFishBreadCountNotReadOther(@PathVariable(name = "uuid")String cartUUid) {
+        return ResponseEntity.ok(fishBreadService.findFishBreadCountNotReadOther(cartUUid));
     }
 
     /**

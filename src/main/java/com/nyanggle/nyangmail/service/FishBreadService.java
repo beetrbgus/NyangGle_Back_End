@@ -13,6 +13,7 @@ public interface FishBreadService {
     void fishBreadstatusChange(Long fishId);
     Page<FishBreadListResDto> findBySearchCondition(String uuid, Pageable pageable, SearchCondition searchCondition);
     Long findFishBreadCountAll(String cartUUid);
-    Long findFishBreadCountNotRead(String userId);
+    Long findFishBreadCountNotReadMy(String userId);
+    Long findFishBreadCountNotReadOther(String userId);
     void deleteFishBread(Long fishId, String userId);
 }
