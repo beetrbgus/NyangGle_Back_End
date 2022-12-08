@@ -80,7 +80,7 @@ public class FishBreadServiceImpl implements FishBreadService{
     public MainInfoResDto getMainInfo(String cartUUid, UserToken userToken) {
         int maxCount = 0;
 
-        if (userToken == null || cartUUid.equals(userToken.getUserId())) {
+        if (userToken == null || !cartUUid.equals(userToken.getUserId())) {
             maxCount = 6;
         }else {
             maxCount = 100;
