@@ -78,13 +78,7 @@ public class FishBreadServiceImpl implements FishBreadService{
 
     @Override
     public MainInfoResDto getMainInfo(String cartUUid, UserToken userToken) {
-        int maxCount = 0;
-
-        if (userToken == null || !cartUUid.equals(userToken.getUserId())) {
-            maxCount = 6;
-        }else {
-            maxCount = 100;
-        }
+        int maxCount = (userToken != null || cartUUid.equals(userToken.getUserId()))? 100 : 6;
 
         User user = userRepository.findByUserUid(cartUUid).orElseThrow(CannotFindUser::new);
 
