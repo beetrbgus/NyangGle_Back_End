@@ -52,7 +52,7 @@ public class FishBreadController {
      */
     @GetMapping("/{uuid}")
     public ResponseEntity getMainInfo(@AuthenticationPrincipal UserToken userToken,
-                                          @PathVariable(value = "uuid") String cartUUid) {
+                                      @PathVariable(value = "uuid") String cartUUid) {
         return ResponseEntity.ok(fishBreadService.getMainInfo(cartUUid, userToken));
     }
 
