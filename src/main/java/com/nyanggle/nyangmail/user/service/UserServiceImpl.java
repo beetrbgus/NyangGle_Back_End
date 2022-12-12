@@ -1,8 +1,8 @@
-package com.nyanggle.nyangmail.service;
+package com.nyanggle.nyangmail.user.service;
 
 import com.nyanggle.nyangmail.exception.user.CannotFindUser;
-import com.nyanggle.nyangmail.persistence.entity.User;
-import com.nyanggle.nyangmail.persistence.repository.CustomUserRepository;
+import com.nyanggle.nyangmail.user.persistence.User;
+import com.nyanggle.nyangmail.user.repository.CustomUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

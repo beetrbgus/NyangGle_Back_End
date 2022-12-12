@@ -1,8 +1,8 @@
-package com.nyanggle.nyangmail.persistence.repository;
+package com.nyanggle.nyangmail.user.repository;
 
-import com.nyanggle.nyangmail.interfaces.dto.UserStatus;
+import com.nyanggle.nyangmail.user.persistence.UserStatus;
 import static com.nyanggle.nyangmail.persistence.entity.QUser.user;
-import com.nyanggle.nyangmail.persistence.entity.User;
+import com.nyanggle.nyangmail.user.persistence.User;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;

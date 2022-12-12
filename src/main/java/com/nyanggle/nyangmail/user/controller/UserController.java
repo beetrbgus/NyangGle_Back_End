@@ -1,10 +1,10 @@
-package com.nyanggle.nyangmail.controller;
+package com.nyanggle.nyangmail.user.controller;
 
 import com.nyanggle.nyangmail.config.AuthUser;
 import com.nyanggle.nyangmail.exception.ErrorCode;
 import com.nyanggle.nyangmail.exception.handler.NyangException;
 import com.nyanggle.nyangmail.oauth.jwt.UserToken;
-import com.nyanggle.nyangmail.service.UserService;
+import com.nyanggle.nyangmail.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

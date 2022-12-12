@@ -1,4 +1,4 @@
-package com.nyanggle.nyangmail.interfaces.dto.login;
+package com.nyanggle.nyangmail.user.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

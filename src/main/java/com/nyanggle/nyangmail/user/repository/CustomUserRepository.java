@@ -1,6 +1,6 @@
-package com.nyanggle.nyangmail.persistence.repository;
+package com.nyanggle.nyangmail.user.repository;
 
-import com.nyanggle.nyangmail.persistence.entity.User;
+import com.nyanggle.nyangmail.user.persistence.User;
 
 import java.util.Optional;
 

@@ -1,4 +1,4 @@
-package com.nyanggle.nyangmail.interfaces.dto;
+package com.nyanggle.nyangmail.user.persistence;
 
 import lombok.RequiredArgsConstructor;
 

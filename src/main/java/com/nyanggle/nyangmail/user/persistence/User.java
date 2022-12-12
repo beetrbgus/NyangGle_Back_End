@@ -1,6 +1,5 @@
-package com.nyanggle.nyangmail.persistence.entity;
+package com.nyanggle.nyangmail.user.persistence;
 
-import com.nyanggle.nyangmail.interfaces.dto.UserStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
