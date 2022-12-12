@@ -1,11 +1,11 @@
-package com.nyanggle.nyangmail.interfaces.dto.fishbread;
+package com.nyanggle.nyangmail.fishbread.dto;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-import com.nyanggle.nyangmail.persistence.entity.FishBread;
-import com.nyanggle.nyangmail.persistence.entity.FishBreadStatus;
+import com.nyanggle.nyangmail.fishbread.persistence.FishBread;
+import com.nyanggle.nyangmail.fishbread.persistence.FishBreadStatus;
 import lombok.Getter;
 import lombok.Setter;
 

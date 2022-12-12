@@ -1,7 +1,7 @@
-package com.nyanggle.nyangmail.persistence.repository;
+package com.nyanggle.nyangmail.fishbread.repository;
 
-import com.nyanggle.nyangmail.interfaces.dto.fishbread.FishBreadListResDto;
-import com.nyanggle.nyangmail.interfaces.dto.fishbread.SearchCondition;
+import com.nyanggle.nyangmail.fishbread.dto.FishBreadListResDto;
+import com.nyanggle.nyangmail.fishbread.dto.SearchCondition;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

@@ -1,14 +1,13 @@
-package com.nyanggle.nyangmail.controller;
+package com.nyanggle.nyangmail.fishbread.controller;
 
 import com.nyanggle.nyangmail.config.AuthUser;
 import com.nyanggle.nyangmail.exception.user.UnAuthorizedException;
-import com.nyanggle.nyangmail.interfaces.dto.fishbread.FishBreadCreateReqDto;
-import com.nyanggle.nyangmail.interfaces.dto.fishbread.FishBreadListResDto;
-import com.nyanggle.nyangmail.interfaces.dto.fishbread.FishBreadResDto;
-import com.nyanggle.nyangmail.interfaces.dto.fishbread.SearchCondition;
+import com.nyanggle.nyangmail.fishbread.dto.FishBreadCreateReqDto;
+import com.nyanggle.nyangmail.fishbread.dto.FishBreadListResDto;
+import com.nyanggle.nyangmail.fishbread.dto.FishBreadResDto;
+import com.nyanggle.nyangmail.fishbread.dto.SearchCondition;
 import com.nyanggle.nyangmail.oauth.jwt.UserToken;
-import com.nyanggle.nyangmail.persistence.entity.User;
-import com.nyanggle.nyangmail.service.FishBreadService;
+import com.nyanggle.nyangmail.fishbread.service.FishBreadService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -55,7 +54,6 @@ public class FishBreadController {
                                       @PathVariable(value = "uuid") String cartUUid) {
         return ResponseEntity.ok(fishBreadService.getMainInfo(cartUUid, userToken));
     }
-
 
     /**
      * 붕어빵 목록

@@ -1,6 +1,6 @@
-package com.nyanggle.nyangmail.interfaces.dto.fishbread;
+package com.nyanggle.nyangmail.fishbread.dto;
 
-import com.nyanggle.nyangmail.persistence.entity.FishBreadStatus;
+import com.nyanggle.nyangmail.fishbread.persistence.FishBreadStatus;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

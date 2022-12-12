@@ -1,6 +1,6 @@
-package com.nyanggle.nyangmail.persistence.repository;
+package com.nyanggle.nyangmail.fishbread.repository;
 
-import com.nyanggle.nyangmail.persistence.entity.FishBread;
+import com.nyanggle.nyangmail.fishbread.persistence.FishBread;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

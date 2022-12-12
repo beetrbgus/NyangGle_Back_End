@@ -1,10 +1,10 @@
-package com.nyanggle.nyangmail.service;
+package com.nyanggle.nyangmail.fishbread.service;
 
-import com.nyanggle.nyangmail.interfaces.dto.fishbread.FishBreadCreateReqDto;
-import com.nyanggle.nyangmail.interfaces.dto.fishbread.FishBreadListResDto;
-import com.nyanggle.nyangmail.interfaces.dto.fishbread.FishBreadResDto;
-import com.nyanggle.nyangmail.interfaces.dto.fishbread.MainInfoResDto;
-import com.nyanggle.nyangmail.interfaces.dto.fishbread.SearchCondition;
+import com.nyanggle.nyangmail.fishbread.dto.FishBreadCreateReqDto;
+import com.nyanggle.nyangmail.fishbread.dto.FishBreadListResDto;
+import com.nyanggle.nyangmail.fishbread.dto.FishBreadResDto;
+import com.nyanggle.nyangmail.fishbread.dto.MainInfoResDto;
+import com.nyanggle.nyangmail.fishbread.dto.SearchCondition;
 import com.nyanggle.nyangmail.oauth.jwt.UserToken;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

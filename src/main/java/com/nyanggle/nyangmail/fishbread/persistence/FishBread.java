@@ -1,6 +1,6 @@
-package com.nyanggle.nyangmail.persistence.entity;
+package com.nyanggle.nyangmail.fishbread.persistence;
 
-import com.nyanggle.nyangmail.interfaces.dto.fishbread.FishBreadCreateReqDto;
+import com.nyanggle.nyangmail.fishbread.dto.FishBreadCreateReqDto;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;

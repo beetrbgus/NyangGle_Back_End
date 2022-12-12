@@ -1,10 +1,10 @@
-package com.nyanggle.nyangmail.persistence.repository;
+package com.nyanggle.nyangmail.fishbread.repository;
 
-import com.nyanggle.nyangmail.interfaces.dto.fishbread.FishBreadListResDto;
+import com.nyanggle.nyangmail.fishbread.dto.FishBreadListResDto;
 import com.nyanggle.nyangmail.interfaces.dto.fishbread.QFishBreadListResDto;
-import com.nyanggle.nyangmail.interfaces.dto.fishbread.SearchCondition;
+import com.nyanggle.nyangmail.fishbread.dto.SearchCondition;
 
-import com.nyanggle.nyangmail.persistence.entity.FishBreadStatus;
+import com.nyanggle.nyangmail.fishbread.persistence.FishBreadStatus;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;

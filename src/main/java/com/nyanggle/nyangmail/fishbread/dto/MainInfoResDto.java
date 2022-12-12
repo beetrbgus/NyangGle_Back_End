@@ -1,4 +1,4 @@
-package com.nyanggle.nyangmail.interfaces.dto.fishbread;
+package com.nyanggle.nyangmail.fishbread.dto;
 
 import lombok.Builder;
 import lombok.Getter;
