@@ -2,6 +2,7 @@ package com.nyanggle.nyangmail.oauth;
 
 import com.nyanggle.nyangmail.config.AuthUser;
 import com.nyanggle.nyangmail.exception.user.UnAuthorizedException;
+import com.nyanggle.nyangmail.oauth.dto.UserPrincipal;
 import org.springframework.core.MethodParameter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
