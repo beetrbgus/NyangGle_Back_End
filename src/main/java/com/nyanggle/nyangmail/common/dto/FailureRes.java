@@ -1,4 +1,4 @@
-package com.nyanggle.nyangmail.interfaces.dto.response;
+package com.nyanggle.nyangmail.common.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;

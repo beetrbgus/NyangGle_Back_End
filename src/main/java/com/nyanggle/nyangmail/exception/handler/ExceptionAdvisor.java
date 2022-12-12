@@ -1,8 +1,8 @@
 package com.nyanggle.nyangmail.exception.handler;
 
 import com.nyanggle.nyangmail.exception.ErrorCode;
-import com.nyanggle.nyangmail.interfaces.dto.response.FailureRes;
-import com.nyanggle.nyangmail.interfaces.dto.response.FailureRes.ValidationError;
+import com.nyanggle.nyangmail.common.dto.FailureRes;
+import com.nyanggle.nyangmail.common.dto.FailureRes.ValidationError;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
