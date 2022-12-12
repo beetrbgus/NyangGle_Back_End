@@ -1,10 +1,8 @@
-package com.nyanggle.nyangmail.interfaces.dto.fishbread;
+package com.nyanggle.nyangmail.fishbread.dto;
 
-import com.nyanggle.nyangmail.persistence.entity.FishBreadStatus;
+import com.nyanggle.nyangmail.fishbread.persistence.FishBreadStatus;
 import lombok.Getter;
 import lombok.Setter;
-
-import javax.validation.constraints.NotBlank;
 
 @Getter
 @Setter
