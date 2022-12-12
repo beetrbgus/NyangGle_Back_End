@@ -1,4 +1,4 @@
-package com.nyanggle.nyangmail.oauth;
+package com.nyanggle.nyangmail.oauth.dto;
 
 import lombok.Getter;
 import lombok.Setter;

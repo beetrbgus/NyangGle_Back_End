@@ -1,6 +1,6 @@
-package com.nyanggle.nyangmail.oauth;
+package com.nyanggle.nyangmail.oauth.dto;
 
-import com.nyanggle.nyangmail.persistence.entity.User;
+import com.nyanggle.nyangmail.user.persistence.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

@@ -1,4 +1,4 @@
-package com.nyanggle.nyangmail.oauth;
+package com.nyanggle.nyangmail.oauth.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -7,14 +7,17 @@ import com.nyanggle.nyangmail.exception.ErrorCode;
 import com.nyanggle.nyangmail.exception.handler.NyangException;
 import com.nyanggle.nyangmail.exception.user.CannotFindUser;
 import com.nyanggle.nyangmail.exception.user.OAuthLoginException;
-import com.nyanggle.nyangmail.interfaces.convert.OAuthInfoToUser;
-import com.nyanggle.nyangmail.interfaces.dto.login.LoginRes;
+import com.nyanggle.nyangmail.oauth.KaKaoConfigUtils;
+import com.nyanggle.nyangmail.oauth.dto.ProviderUser;
+import com.nyanggle.nyangmail.oauth.dto.UserPrincipal;
+import com.nyanggle.nyangmail.oauth.convert.OAuthInfoToUser;
+import com.nyanggle.nyangmail.user.dto.LoginRes;
 import com.nyanggle.nyangmail.oauth.jwt.JwtProvider;
 import com.nyanggle.nyangmail.oauth.jwt.TokenRes;
 import com.nyanggle.nyangmail.oauth.jwt.UserToken;
-import com.nyanggle.nyangmail.persistence.entity.User;
-import com.nyanggle.nyangmail.persistence.repository.CustomUserRepository;
-import com.nyanggle.nyangmail.persistence.repository.UserRepository;
+import com.nyanggle.nyangmail.user.persistence.User;
+import com.nyanggle.nyangmail.user.repository.CustomUserRepository;
+import com.nyanggle.nyangmail.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;

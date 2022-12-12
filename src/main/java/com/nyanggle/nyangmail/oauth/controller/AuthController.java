@@ -1,7 +1,7 @@
-package com.nyanggle.nyangmail.controller;
+package com.nyanggle.nyangmail.oauth.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.nyanggle.nyangmail.oauth.CustomOAuth2UserService;
+import com.nyanggle.nyangmail.oauth.service.CustomOAuth2UserService;
 import com.nyanggle.nyangmail.oauth.jwt.UserToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

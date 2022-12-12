@@ -1,6 +1,6 @@
 package com.nyanggle.nyangmail.oauth.jwt;
 
-import com.nyanggle.nyangmail.oauth.UserPrincipal;
+import com.nyanggle.nyangmail.oauth.dto.UserPrincipal;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

@@ -2,7 +2,7 @@ package com.nyanggle.nyangmail.oauth.jwt;
 
 import com.nyanggle.nyangmail.exception.ErrorCode;
 import com.nyanggle.nyangmail.exception.handler.NyangException;
-import com.nyanggle.nyangmail.oauth.UserPrincipal;
+import com.nyanggle.nyangmail.oauth.dto.UserPrincipal;
 import com.nyanggle.nyangmail.oauth.exception.NyangJWTException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;

@@ -1,4 +1,4 @@
-package com.nyanggle.nyangmail.persistence.entity;
+package com.nyanggle.nyangmail.user.persistence;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
