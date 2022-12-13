@@ -1,7 +1,7 @@
 package com.nyanggle.nyangmail.user.repository;
 
 import com.nyanggle.nyangmail.user.persistence.UserStatus;
-import static com.nyanggle.nyangmail.persistence.entity.QUser.user;
+import static com.nyanggle.nyangmail.user.persistence.QUser.user;
 import com.nyanggle.nyangmail.user.persistence.User;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
