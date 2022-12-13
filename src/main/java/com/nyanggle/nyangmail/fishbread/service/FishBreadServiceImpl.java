@@ -17,6 +17,7 @@ import com.nyanggle.nyangmail.fishbread.repository.CustomFishBreadRepository;
 import com.nyanggle.nyangmail.fishbread.repository.FishBreadRepository;
 import com.nyanggle.nyangmail.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,14 @@ public class FishBreadServiceImpl implements FishBreadService{
     private final FishBreadRepository fishBreadRepository;
     private final CustomFishBreadRepository customFishBreadRepository;
     private final RandomIdUtil randomIdUtil;
+
+    @Value("${nyangletter.welcome.message}")
+    private String welcomeMessage;
+    @Value("${nyangletter.welcome.fishType}")
+    private String welcomeType;
+
+    @Value("${nyangletter.welcome.nickname}")
+    private String welcomeNickname;
 
     @Override
     @Transactional
@@ -92,5 +101,11 @@ public class FishBreadServiceImpl implements FishBreadService{
                 .totalCount(customFishBreadRepository.findFishBreadCountAll(cartUUid))
                 .unreadCount(customFishBreadRepository.findFishBreadCountUnRead(cartUUid, maxCount))
                 .build();
+    }
+
+    @Override
+    public void welcomFish(String uuid) {
+        FishBread fishBread = FishBread.welcome(welcomeType,welcomeMessage, welcomeNickname, randomIdUtil.fishBreadId(), uuid);
+        fishBreadRepository.save(fishBread);
     }
 }

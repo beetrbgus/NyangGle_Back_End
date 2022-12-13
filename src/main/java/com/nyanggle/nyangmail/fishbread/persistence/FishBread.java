@@ -70,6 +70,11 @@ public class FishBread {
         return new FishBread(reqDto.getType(), FishBreadStatus.UNREAD, reqDto.getMessage(),
                 fishBreadUid, reqDto.getSenderNickname(), uuid);
     }
+
+    public static FishBread welcome(String type, String message, String nickname, String fishBreadUid, String uuid) {
+        return new FishBread(type, FishBreadStatus.UNREAD, message,
+                fishBreadUid, nickname, uuid);
+    }
     public FishBread read() {
         this.status = FishBreadStatus.READ;
         return this;
