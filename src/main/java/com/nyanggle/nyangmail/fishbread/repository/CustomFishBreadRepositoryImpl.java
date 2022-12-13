@@ -1,7 +1,7 @@
 package com.nyanggle.nyangmail.fishbread.repository;
 
 import com.nyanggle.nyangmail.fishbread.dto.FishBreadListResDto;
-import com.nyanggle.nyangmail.interfaces.dto.fishbread.QFishBreadListResDto;
+import com.nyanggle.nyangmail.fishbread.dto.QFishBreadListResDto;
 import com.nyanggle.nyangmail.fishbread.dto.SearchCondition;
 
 import com.nyanggle.nyangmail.fishbread.persistence.FishBreadStatus;
@@ -16,7 +16,8 @@ import org.springframework.util.StringUtils;
 
 import java.util.List;
 
-import static com.nyanggle.nyangmail.persistence.entity.QFishBread.fishBread;
+import static com.nyanggle.nyangmail.fishbread.persistence.QFishBread.fishBread;
+
 @Repository
 @RequiredArgsConstructor
 public class CustomFishBreadRepositoryImpl implements CustomFishBreadRepository {
